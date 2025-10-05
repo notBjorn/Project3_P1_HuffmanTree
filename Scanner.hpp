@@ -15,12 +15,12 @@ public:
     explicit Scanner(std::filesystem::path inputPath);
 
     // Tokenize into memory (according to the Rules in this section).
-    error_type tokenize(std::vector<std::string>& words);
+    error_type tokenize(std::vector<std::string> &words);
 
     // Tokenize and also write one token per line to 'outputFile' (e.g., <base>.tokens).
     // This overload should internally call the in‑memory tokenize() to avoid duplicate logic.
-    error_type tokenize(std::vector<std::string>& words,
-                        const std::filesystem::path& outputFile);
+    error_type tokenize(std::vector<std::string> &words,
+                        const std::filesystem::path &outputFile);
 
     ~Scanner() = default;
 

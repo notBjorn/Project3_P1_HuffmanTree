@@ -11,7 +11,7 @@
 
 
 int main(int argc, char *argv[]) {
-
+    std::cout<< "the program ran\n";
     if (argc != 2) {
         std::cerr << "Usage: " << argv[0] << " <filename>\n";
         return 1;
@@ -30,7 +30,6 @@ int main(int argc, char *argv[]) {
      if( error_type status; (status = regularFileExistsAndIsAvailable(inputFileName)) != NO_ERROR )
         exitOnError(status, inputFileName);
 
-
     if (error_type status; (status = directoryExists(dirName)) != NO_ERROR )
         exitOnError(status, dirName);
 
@@ -40,14 +39,15 @@ int main(int argc, char *argv[]) {
 
     std::vector<std::string> words;
     namespace fs = std::filesystem;
+    fs::path inputFilePath(inputFileName);
     fs::path tokensFilePath(wordTokensFileName); // create a file system path using the output file.
 
-    auto fileToWords = Scanner(tokensFilePath);
+    auto fileToWords = Scanner(inputFilePath);
     if( error_type status; (status = fileToWords.tokenize(words)) != NO_ERROR)
 	    exitOnError(status, inputFileName);
 
     if (error_type status; (status = writeVectorToFile(wordTokensFileName, words)) != NO_ERROR)
         exitOnError(status, wordTokensFileName);
-
+    std::cout<< "the program ended\n";
     return 0;
 }
