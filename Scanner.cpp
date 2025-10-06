@@ -14,14 +14,16 @@ Scanner::Scanner(std::filesystem::path inputPath) {
     inputPath_ = std::move(inputPath);// clion told me to use move instead of copy
 }
 error_type Scanner::tokenize(std::vector<std::string>& words) {
-    std::ifstream inputFile(inputPath_);// input file from which i read
+    std::ifstream inputFile(inputPath_);
     if (!inputFile.is_open()) {
         return UNABLE_TO_OPEN_FILE;
     }
 
     std::string token;
-    while (!inputFile.eof()) {
+    while (true) {
         token = readWord(inputFile);
+        if (token.empty()) break;
+        std::cout << "Pushing token: \"" << token << "\"\n"; // DEBUG
         words.push_back(token);
     }
 
@@ -32,15 +34,27 @@ error_type Scanner::tokenize(std::vector<std::string>& words) {
 std::string Scanner::readWord(std::istream& in) {
     std::string word;
     char c;
+
     while (in.get(c)) {
-        // read while we have something to read
-        if (std::isalpha(c))
-            word.push_back(std::tolower(c)); //forgot to lower the char here
-        else if (c == '\'' && !word.empty() && std::isalpha(in.peek())) {
-            word.push_back(c);
-        } else {
-            if (!word.empty()) break; //there is something in the word that means we have reached the end
+        std::cout << "Got char: '" << c << "'\n"; // DEBUG
+
+        if (std::isalpha(static_cast<unsigned char>(c))) {
+            word.push_back(std::tolower(static_cast<unsigned char>(c)));
+        }
+        else if ((c == '\'' || c == '\’') && !word.empty()) {
+            int nextChar = in.peek();
+            std::cout << " Apostrophe, peek = '" << (char)nextChar << "'\n"; // DEBUG
+            if (nextChar != EOF && std::isalpha(static_cast<unsigned char>(nextChar))) {
+                word.push_back(c);  // keep apostrophe
+            } else {
+                break;
+            }
+        }
+        else if (!word.empty()) {
+            break;
         }
     }
+
+    std::cout << "Returning word: \"" << word << "\"\n"; // DEBUG
     return word;
 }
