@@ -13,6 +13,8 @@
 Scanner::Scanner(std::filesystem::path inputPath) {
     inputPath_ = std::move(inputPath);// clion told me to use move instead of copy
 }
+
+
 error_type Scanner::tokenize(std::vector<std::string>& words) {
     std::ifstream inputFile(inputPath_);
     if (!inputFile.is_open()) {
@@ -23,7 +25,6 @@ error_type Scanner::tokenize(std::vector<std::string>& words) {
     while (true) {
         token = readWord(inputFile);
         if (token.empty()) break;
-        std::cout << "Pushing token: \"" << token << "\"\n"; // DEBUG
         words.push_back(token);
     }
 
@@ -36,14 +37,12 @@ std::string Scanner::readWord(std::istream& in) {
     char c;
 
     while (in.get(c)) {
-        std::cout << "Got char: '" << c << "'\n"; // DEBUG
 
         if (std::isalpha(static_cast<unsigned char>(c))) {
             word.push_back(std::tolower(static_cast<unsigned char>(c)));
         }
-        else if ((c == '\'' || c == '\’') && !word.empty()) {
+        else if (c == '\''&& !word.empty()) {
             int nextChar = in.peek();
-            std::cout << " Apostrophe, peek = '" << (char)nextChar << "'\n"; // DEBUG
             if (nextChar != EOF && std::isalpha(static_cast<unsigned char>(nextChar))) {
                 word.push_back(c);  // keep apostrophe
             } else {
@@ -54,7 +53,5 @@ std::string Scanner::readWord(std::istream& in) {
             break;
         }
     }
-
-    std::cout << "Returning word: \"" << word << "\"\n"; // DEBUG
     return word;
 }
