@@ -39,14 +39,14 @@ int main(int argc, char *argv[]) {
 
     std::vector<std::string> words;
     namespace fs = std::filesystem;
-    fs::path inputFilePath(inputFileName);
+    fs::path inputFilePath(inputFileName); // files system for the input file
     fs::path tokensFilePath(wordTokensFileName); // create a file system path using the output file.
 
     auto fileToWords = Scanner(inputFilePath);
     if( error_type status; (status = fileToWords.tokenize(words)) != NO_ERROR)
 	    exitOnError(status, inputFileName);
 
-    if (error_type status; (status = writeVectorToFile(wordTokensFileName, words)) != NO_ERROR)
+    if (error_type status; (status = fileToWords.tokenize(words, wordTokensFileName)) != NO_ERROR)
         exitOnError(status, wordTokensFileName);
     std::cout<< "the program ended\n";
     return 0;

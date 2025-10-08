@@ -32,6 +32,29 @@ error_type Scanner::tokenize(std::vector<std::string>& words) {
 }
 
 
+
+//Copied over from utils not sure what is there to change here
+error_type Scanner::tokenize(std::vector<std::string> &words, const std::filesystem::path &outputFile) {
+    std::ofstream out(outputFile, std::ios::out | std::ios::trunc);
+    if (!out.is_open()) {
+        return UNABLE_TO_OPEN_FILE_FOR_WRITING;
+    }
+
+    tokenize(words); //tokenize the data to memory
+
+    for (const auto& item : words) {
+        out << item << '\n';
+        if (!out) {
+            std::cerr << "Error: failed while writing to " << outputFile << "\n";
+            return FAILED_TO_WRITE_FILE;
+        }
+    }
+
+    return NO_ERROR;
+}
+
+
+
 std::string Scanner::readWord(std::istream& in) {
     std::string word;
     char c;
