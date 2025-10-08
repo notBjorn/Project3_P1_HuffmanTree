@@ -40,7 +40,9 @@ error_type Scanner::tokenize(std::vector<std::string> &words, const std::filesys
         return UNABLE_TO_OPEN_FILE_FOR_WRITING;
     }
 
-    tokenize(words); //tokenize the data to memory
+    if (words.empty()) {
+    tokenize(words); //tokenize the data to memory if it hasn't been done already
+    }
 
     for (const auto& item : words) {
         out << item << '\n';
