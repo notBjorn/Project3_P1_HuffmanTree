@@ -40,9 +40,9 @@ int main(int argc, char *argv[]) {
     std::vector<std::string> words;
     namespace fs = std::filesystem;
     fs::path inputFilePath(inputFileName); // files system for the input file
-    fs::path tokensFilePath(wordTokensFileName); // create a file system path using the output file.
+    //fs::path tokensFilePath(wordTokensFileName); // create a file system path using the output file.
 
-    auto fileToWords = Scanner(inputFilePath);
+    auto fileToWords = Scanner(inputFilePath); //create the scanner object
     if( error_type status; (status = fileToWords.tokenize(words)) != NO_ERROR)
 	    exitOnError(status, inputFileName);
 

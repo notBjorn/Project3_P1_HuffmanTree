@@ -62,10 +62,10 @@ std::string Scanner::readWord(std::istream& in) {
     char c;
 
     while (in.get(c)) {
-        if (std::isalpha(c))
-            word.push_back(std::tolower(c)); //forgot to lower the char here
+        if (std::isalpha(static_cast<unsigned char>(c)))
+            word.push_back(std::tolower(static_cast<unsigned char>(c))); //forgot to lower the char here
         else if (c == '\'' && !word.empty() && std::isalpha(in.peek())) {
-            word.push_back(c);
+            word.push_back(static_cast<unsigned char>(c));
         } else {
             if (!word.empty()) break; //there is something in the word and c that means we have reached the end
         }
