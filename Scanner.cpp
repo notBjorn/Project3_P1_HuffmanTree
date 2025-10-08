@@ -24,6 +24,7 @@ error_type Scanner::tokenize(std::vector<std::string>& words) {
     std::string token;
     while (!inputFile.eof()) {
         token = readWord(inputFile);
+        if (token.empty()) break;
         words.push_back(token);
     }
 
