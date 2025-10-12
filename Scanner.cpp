@@ -17,9 +17,10 @@ Scanner::Scanner(std::filesystem::path inputPath) {
 
 error_type Scanner::tokenize(std::vector<std::string>& words) {
     std::ifstream inputFile(inputPath_);
-    if (!inputFile.is_open()) {
-        return UNABLE_TO_OPEN_FILE;
-    }
+
+    if (!inputFile.is_open()) return UNABLE_TO_OPEN_FILE;
+
+    words.clear();
 
     std::string token;
     while (!inputFile.eof()) {
@@ -38,10 +39,6 @@ error_type Scanner::tokenize(std::vector<std::string> &words, const std::filesys
     std::ofstream out(outputFile, std::ios::out | std::ios::trunc);
     if (!out.is_open()) {
         return UNABLE_TO_OPEN_FILE_FOR_WRITING;
-    }
-
-    if (words.empty()) {
-    tokenize(words); //tokenize the data to memory if it hasn't been done already
     }
 
     for (const auto& item : words) {
